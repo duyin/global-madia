@@ -1,0 +1,79 @@
+$mobile-size: 768px;
+$pad-size: 1024px;
+$padPro-size: 1366px;
+$pc-size: 1025px;
+$max-size: 1440px;
+
+@mixin forMobile {
+  @media screen and (max-width: ($mobile-size - 1px)) {
+    @content;
+  }
+}
+
+@mixin forPad {
+  @media screen and (min-width: $mobile-size) and (max-width: ($pad-size - 1)) {
+    @content;
+  }
+}
+
+@mixin forPadPro {
+    @media screen and (min-width: $mobile-size) and (max-width: ($padPro-size - 1)) {
+        @content;
+    }
+}
+
+@mixin forPC {
+  @media screen and (min-width: $pad-size) {
+    @content;
+  }
+}
+
+
+@mixin forWidenPC {
+  @media screen and (min-width: $max-size) {
+    @content;
+  }
+}
+
+@mixin responsiveProp($propName, $valPC, $valPad, $valMobile) {
+  @include forPC {
+    #{$propName}: $valPC;
+  }
+
+  @include forPad {
+    #{$propName}: $valPad;
+  }
+
+  @include forMobile() {
+    #{$propName}: $valMobile;
+  }
+}
+
+@mixin responsiveProps($propNames, $valsPC, $valsPad, $valsMobile) {
+  @include forPC {
+    @for $i from 1 through length($propNames) {
+      $propName: nth($propNames, $i);
+      $valPC: nth($valsPC, $i);
+
+      #{$propName}: $valPC;
+    }
+  }
+
+  @include forPad {
+    @for $i from 1 through length($propNames) {
+      $propName: nth($propNames, $i);
+      $valPad: nth($valsPad, $i);
+
+      #{$propName}: $valPad;
+    }
+  }
+
+  @include forMobile() {
+    @for $i from 1 through length($propNames) {
+      $propName: nth($propNames, $i);
+      $valMobile: nth($valsMobile, $i);
+
+      #{$propName}: $valMobile;
+    }
+  }
+}
